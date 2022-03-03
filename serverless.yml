@@ -48,12 +48,16 @@ plugins:
   - serverless-prune-plugin
   - serverless-plugin-tree-shake
 
+layers:
+  layerRuntime:
+    path: ./layers/layerRuntime
+
 
 
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
-    includeModules: true
+    includeModules: false
   prune: # automatically prune old lambda versions
     automatic: true
     number: 3
