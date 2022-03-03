@@ -1,0 +1,78 @@
+service: typescript-serverless-template
+frameworkVersion: '2.43.1'
+configValidationMode: error
+
+useDotenv: true
+
+##
+## Provider params
+##
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+  lambdaHashingVersion: 20201221
+  httpApi: # https://www.serverless.com/framework/docs/providers/aws/events/http-api/
+    cors:
+      allowedOrigins: '*'
+      allowedHeaders:
+        - Content-Type
+        - X-Amz-Date
+        - Authorization
+        - X-Api-Key
+        - X-Amz-Security-Token
+        - X-Amz-User-Agent
+      allowedMethods:
+        - GET
+        - POST
+        - DELETE
+        - OPTIONS
+      allowCredentials: false
+  environment:
+    STAGE: ${opt:stage,'dev'}
+##
+## Package settings
+##
+package:
+  excludeDevDependencies: true
+  individually: true
+  patterns:
+    - '!node_modules'
+
+##
+## Serverless plugins
+## TODO: figure out how to have serverless-plugin-typescript in and still deploy as it doesn't build without it
+plugins:
+  - serverless-offline
+  - serverless-webpack
+  - serverless-prune-plugin
+  - serverless-plugin-tree-shake
+
+
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+  prune: # automatically prune old lambda versions
+    automatic: true
+    number: 3
+
+##
+## FUNCTIONS
+##
+functions:
+  cronJonExample: # Cron job example
+    handler: ./src/functions/cronjobs/cronJonExample.handler
+    events:
+      - schedule:
+          name: cronJonExample
+          rate: rate(1 day)
+          enabled: true
+  articlesGET: # GET example for articles endpoint
+    handler: ./src/functions/articles/list/get.handler
+    timeout: 29
+    events: # The events that trigger this function
+      - httpApi:
+          path: /articles
+          method: get
