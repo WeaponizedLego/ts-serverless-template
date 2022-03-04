@@ -94,3 +94,6 @@ typings/
 .yarn/
 
 scratchPost.js
+
+layers/layerRuntime/nodejs/node_modules
+layers/layerRuntime/nodejs/.yarn
