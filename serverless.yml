@@ -10,7 +10,7 @@ useDotenv: true
 provider:
   name: aws
   runtime: nodejs14.x
-  region: eu-west-1
+  region: eu-west-2
   lambdaHashingVersion: 20201221
   httpApi: # https://www.serverless.com/framework/docs/providers/aws/events/http-api/
     cors:
@@ -46,7 +46,7 @@ plugins:
   - serverless-offline
   - serverless-webpack
   - serverless-prune-plugin
-  - serverless-plugin-tree-shake
+#  - serverless-plugin-tree-shake
 
 layers:
   layerRuntime:
@@ -66,13 +66,6 @@ custom:
 ## FUNCTIONS
 ##
 functions:
-  cronJonExample: # Cron job example
-    handler: ./src/functions/cronjobs/cronJonExample.handler
-    events:
-      - schedule:
-          name: cronJonExample
-          rate: rate(1 day)
-          enabled: true
   articlesGET: # GET example for articles endpoint
     handler: ./src/functions/articles/list/get.handler
     timeout: 29
@@ -80,3 +73,12 @@ functions:
       - httpApi:
           path: /articles
           method: get
+    layers:
+      - { Ref: LayerRuntimeLambdaLayer }
+#  cronJonExample: # Cron job example
+#    handler: ./src/functions/cronjobs/cronJonExample.handler
+#    events:
+#      - schedule:
+#          name: cronJonExample
+#          rate: rate(1 day)
+#          enabled: true

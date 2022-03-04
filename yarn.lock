@@ -10777,9 +10777,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-ooono-backend@workspace:.":
+"ts-serverless-template@workspace:.":
   version: 0.0.0-use.local
-  resolution: "ts-ooono-backend@workspace:."
+  resolution: "ts-serverless-template@workspace:."
   dependencies:
     "@kingdarboja/serverless-plugin-typescript": ^1.4.1
     "@serverless/typescript": ^2.23.0
