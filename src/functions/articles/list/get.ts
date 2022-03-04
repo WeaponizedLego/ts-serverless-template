@@ -9,25 +9,18 @@ export const handler: APIGatewayProxyHandler = async (
   _event: APIGatewayProxyEvent
 ) => {
   // initialize knex outside of try/catch to allow for graceful shutdown
-  const db = knex.connect()
+  // const db = knex.connect()
 
-  const user: Record<string, any> = await authorize(_event)
+  // const user: Record<string, any> = await authorize(_event)
 
-  if (!user.oStatus) {
-    return user.response
-  }
+  // if (!user.oStatus) {
+  //   return user.response
+  // }
 
   try {
     const params: Record<string, any> = validator({
       schema: joi.object().keys({
-        latitude: joi.number().required(),
-        longitude: joi.number().required(),
-        radius: joi.number().optional().default(25).min(1).max(300),
-        mode: joi
-          .string()
-          .optional()
-          .valid('clean', 'full', 'normal')
-          .default('normal')
+        number: joi.number().required()
       }),
       data: <Record<string, any>>_event.queryStringParameters,
       errorMessage:
@@ -39,7 +32,7 @@ export const handler: APIGatewayProxyHandler = async (
     }
 
     // close connection before returning response to prevent connection leakage
-    await db.destroy()
+    // await db.destroy()
     return formatResponse({
       statusCode: 200,
       message: 'Successfully retrieved pin(s) in area',
@@ -47,7 +40,7 @@ export const handler: APIGatewayProxyHandler = async (
     })
   } catch (e) {
     // close connection before returning response to prevent connection leakage
-    await db.destroy()
+    // await db.destroy()
     console.log(e)
     return formatResponse({
       statusCode: 500,

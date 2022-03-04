@@ -1,5 +1,5 @@
 {
-  "name": "ts-ooono-backend",
+  "name": "ts-serverless-template",
   "version": "3",
   "description": "version 3 of backend for ooono",
   "author": "Glen S. Jensen",
@@ -9,7 +9,9 @@
     "dev": "SLS_debug=false && sls offline -s dev --noPrependStageInUrl",
     "devDebug": "SLS_DEBUG=* && sls offline -s dev",
     "deploy:dev": "serverless deploy -s dev",
-    "deploy:prod": "rm -rf .build/ && serverless deploy --stage prod"
+    "deploy:prod": "rm -rf .build/ && serverless deploy --stage prod",
+    "layer:permissions": "chmod ug+x scripts/*.sh",
+    "layer:build": "$PWD/scripts/runtimeLayer.sh"
   },
   "dependencies": {
     "aws-lambda": "^1.0.6",
